@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react'
 
 import { shareChat } from '@/app/actions'
@@ -10,6 +11,9 @@ import { useAIState, useActions, useUIState } from 'ai/rsc'
 import type { AI } from '@/lib/chat/actions'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
+import { PhoneOff } from 'lucide-react'
+import { LiveAudioVisualizer } from 'react-audio-visualize';
+
 
 export interface ChatPanelProps {
   id?: string
@@ -32,6 +36,9 @@ export function ChatPanel({
   const [messages, setMessages] = useUIState<typeof AI>()
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
+  const [calling, setCalling] = React.useState(false)
+  const [mediaRecorder, setMediaRecorder] = React.useState<MediaRecorder>();
+
 
   const exampleMessages = []
 
@@ -43,10 +50,37 @@ export function ChatPanel({
       />
 
       <div className="mx-auto sm:max-w-2xl sm:px-4">
-
-        <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} />
-        </div>
+        {!calling ? 
+          <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
+            <PromptForm input={input} setInput={setInput} calling={calling} setCalling={setCalling} setMediaRecorder={setMediaRecorder} />
+          </div>
+        : 
+          <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
+            <div className='flex justify-end'>
+              <div className='px-6 py-3'>
+                {mediaRecorder && (
+                  <LiveAudioVisualizer
+                    mediaRecorder={mediaRecorder}
+                    width={500}
+                    height={75}
+                    barColor={'#00a868'}
+                  />
+                )}
+              </div>
+              <Button
+                variant='destructive'
+                size='icon'
+                onClick={(e) => setCalling(false)}
+                className='my-auto'
+              >
+                <PhoneOff 
+                  //color="#ffffff"
+                  strokeWidth={1.75}
+                />
+              </Button>
+            </div>
+          </div>
+        }
       </div>
     </div>
   )

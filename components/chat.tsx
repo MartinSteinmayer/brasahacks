@@ -12,6 +12,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
 import { HeaderMenu } from './header-menu'
+import Dashboard from '@/app/dashboard/page'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -69,8 +70,8 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       >
         <HeaderMenu currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </div>
-      {
-        currentPage === 'chat' ? <div>
+      {currentPage === 'chat' ? 
+        <div>
           <div
             className={cn('pb-[200px] pt-4 md:pt-10', className)}
             ref={messagesRef}
@@ -91,7 +92,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
           />
         </div> 
       :
-        <div>test</div> 
+        <Dashboard />
       }
 
     </div>

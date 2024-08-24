@@ -3,15 +3,14 @@
 import { Header } from "@/components/header";
 import { HeaderMenu } from "@/components/header-menu";
 
-const Test = () => {
+const Dashboard = () => {
     return (
         <>
             <div className='menu'>
-                <HeaderMenu dashboard />
             </div>
             Test
         </>
     );
 }
 
-export default Test;
+export default Dashboard;
