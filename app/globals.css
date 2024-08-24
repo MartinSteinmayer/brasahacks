@@ -74,3 +74,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+[data-active] {
+  color: #00a868
+}
+
+.menu {
+  margin-top: 20px;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
