@@ -13,6 +13,7 @@ import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
 import { PhoneOff } from 'lucide-react'
 import { LiveAudioVisualizer } from 'react-audio-visualize';
+import { start } from 'repl'
 
 
 export interface ChatPanelProps {
@@ -36,43 +37,68 @@ export function ChatPanel({
   const [messages, setMessages] = useUIState<typeof AI>()
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
-  const [calling, setCalling] = React.useState(false)
+  const [recording, setRecording] = React.useState(false)
   const [mediaRecorder, setMediaRecorder] = React.useState<MediaRecorder|null>(null);
   const audioContextRef = React.useRef<AudioContext | null>(null)
   const analyserRef = React.useRef<AnalyserNode | null>(null)
   const silenceTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
+  const [isCallActive, setIsCallActive] = React.useState(false)
 
-  const sendAudioToApi = async (blob: Blob) => {
-    const formData = new FormData();
-    formData.append('file', blob, 'recording.webm');
+const stopRecording = () => {
+  if (mediaRecorder) {
+    mediaRecorder.stop();
+    mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    setMediaRecorder(null);
 
-    try {
-      const response = await fetch('https://stenio-api.fly.dev/transcribeAudio', {
-        method: 'POST',
-        body: formData,
-      });
+    // Cleanup audio context and analyser
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+    analyserRef.current = null;
 
-      if (response.ok) {
-        const data = await response.json(); // Parse the JSON from the response
-        console.log('Audio file uploaded successfully');
-        console.log(data.message); // Access and log the message from the response
-    
-      } else {
-        console.error('Failed to upload audio file');
+    // Clear any remaining silence timeout
+    if (silenceTimeoutRef.current) {
+      clearTimeout(silenceTimeoutRef.current);
+      silenceTimeoutRef.current = null;
+    }
+
+    setRecording(false);
+  }
+};
+
+const monitorAudioLevels = () => {
+  const analyser = analyserRef.current;
+  if (!analyser) return;
+
+  const dataArray = new Uint8Array(analyser.fftSize);
+  let silenceStartTime = Date.now();
+  const silenceThreshold = 1500; // 1 second of silence
+
+  const checkSilence = () => {
+    analyser.getByteTimeDomainData(dataArray);
+
+    const isSilent = !dataArray.some(value => value > 128 + 5 || value < 128 - 5);
+
+    if (isSilent) {
+      if (Date.now() - silenceStartTime >= silenceThreshold) {
+        stopRecording();
+        return; // Stop checking once we've stopped recording
       }
-    } catch (error) {
-      console.error('Error uploading audio file', error);
+    } else {
+      silenceStartTime = Date.now(); // Reset silence start time when sound is detected
+    }
+
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      requestAnimationFrame(checkSilence);
     }
   };
 
-  const handleDataAvailable = (event: BlobEvent) => {
-    if (event.data.size > 0) {
-      console.log("Audio chunk captured");
-
-      // Send the audio chunk to the API
-      sendAudioToApi(event.data);
-    }
-  };
+  // Wait a short time before starting to check for silence
+  setTimeout(() => {
+    checkSilence();
+  }, 1000);
+};
 
   const startRecording = async () => {
     try {
@@ -90,7 +116,13 @@ export function ChatPanel({
       recorder.start();
 
       setMediaRecorder(recorder);
-      setCalling(true)
+      setRecording(true);
+
+      // Reset silence detection
+      if (silenceTimeoutRef.current) {
+        clearTimeout(silenceTimeoutRef.current);
+        silenceTimeoutRef.current = null;
+      }
 
       monitorAudioLevels();
     } catch (err) {
@@ -98,6 +130,50 @@ export function ChatPanel({
     }
   };
 
+  const sendAudioToApi = async (blob: Blob) => {
+
+    const formData = new FormData();
+    formData.append('file', blob, 'recording.webm');
+
+    try {
+      const response = await fetch('https://stenio-api.fly.dev/getResponseAudio', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        // Create a blob from the response binary data
+        const audioBlob = await response.blob();
+        
+        // Create a URL for the blob and play it
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+  
+        // When the audio finishes playing, start recording again
+        console.log(isCallActive)
+        audio.onended = () => {
+          if (isCallActive) {startRecording();}
+        };
+      } else {
+        console.error('Failed to upload audio file');
+      }
+    } catch (error) {
+      console.error('Error uploading audio file', error);
+    }
+  };
+
+  const handleDataAvailable = (event: BlobEvent) => {
+      if (event.data.size > 0) {
+        console.log("Audio chunk captured");
+
+        // Send the audio chunk to the API
+        sendAudioToApi(event.data);
+  };
+}
+
+
+  /*
   const monitorAudioLevels = () => {
     const analyser = analyserRef.current;
     if (!analyser) return;
@@ -113,7 +189,7 @@ export function ChatPanel({
           silenceTimeoutRef.current = setTimeout(() => {
             stopRecording();
             // Optionally, call your API here with the recorded data
-          }, 1500); // 1.5 seconds of silence
+          }, 1000); // 1.5 seconds of silence
         }
       } else {
         if (silenceTimeoutRef.current) {
@@ -129,36 +205,28 @@ export function ChatPanel({
 
     checkSilence();
   };
-
-
-  const stopRecording = () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
-      mediaRecorder.stream.getTracks().forEach(track => track.stop());
-      setMediaRecorder(null);
-
-      // Cleanup audio context and analyser
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
-    }
+  */
+  // Add this function to start the call
+  const startCall = () => {
+    setIsCallActive(true);
+    startRecording();
   };
 
   const endCall = () => {
-    setCalling(false);
     stopRecording();
+    setIsCallActive(false);
   };
   
 
   const exampleMessages = []
 
   React.useEffect(() => {
-    if (calling) {
+    if (recording) {
       startRecording();
     } else {
       stopRecording();
     }
-  }, [calling]);
+  }, [recording]);
 
 
   return (
@@ -169,9 +237,9 @@ export function ChatPanel({
       />
 
       <div className="mx-auto sm:max-w-2xl sm:px-4">
-        {!calling ? 
+        {!isCallActive ? 
           <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-            <PromptForm input={input} setInput={setInput} startRecording={startRecording} />
+            <PromptForm input={input} setInput={setInput} startRecording={startCall} />
           </div>
         : 
           <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
