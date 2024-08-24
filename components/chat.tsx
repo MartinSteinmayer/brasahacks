@@ -57,6 +57,8 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor()
 
+  const [currentPage, setCurrentPage] = useState('chat');
+
   return (
     <div
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
@@ -65,26 +67,33 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       <div
         className='menu'
       >
-        <HeaderMenu chat />
+        <HeaderMenu currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </div>
-      <div
-        className={cn('pb-[200px] pt-4 md:pt-10', className)}
-        ref={messagesRef}
-      >
-        {messages.length ? (
-          <ChatList messages={messages} isShared={false} session={session} />
-        ) : (
-          <EmptyScreen />
-        )}
-        <div className="w-full h-px" ref={visibilityRef} />
-      </div>
-      <ChatPanel
-        id={id}
-        input={input}
-        setInput={setInput}
-        isAtBottom={isAtBottom}
-        scrollToBottom={scrollToBottom}
-      />
+      {
+        currentPage === 'chat' ? <div>
+          <div
+            className={cn('pb-[200px] pt-4 md:pt-10', className)}
+            ref={messagesRef}
+          >
+            {messages.length ? (
+              <ChatList messages={messages} isShared={false} session={session} />
+            ) : (
+              <EmptyScreen />
+            )}
+            <div className="w-full h-px" ref={visibilityRef} />
+          </div>
+          <ChatPanel
+            id={id}
+            input={input}
+            setInput={setInput}
+            isAtBottom={isAtBottom}
+            scrollToBottom={scrollToBottom}
+          />
+        </div> 
+      :
+        <div>test</div> 
+      }
+
     </div>
   )
 }
