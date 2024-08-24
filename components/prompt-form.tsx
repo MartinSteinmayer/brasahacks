@@ -22,38 +22,18 @@ import { Phone, SendHorizontal } from 'lucide-react'
 export function PromptForm({
   input,
   setInput,
-  calling,
-  setCalling,
-  setMediaRecorder
+  startRecording
 }: {
   input: string
   setInput: (value: string) => void
-  calling: boolean
-  setCalling: (value : boolean) => void
-  setMediaRecorder: React.Dispatch<React.SetStateAction<MediaRecorder | undefined>>
+  startRecording: () => Promise<void>
 }) {
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
-  const handlePhoneClick = async () => {
-    try {
-      // Request permission to use the microphone
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-      // Create a MediaRecorder instance
-      const recorder = new MediaRecorder(stream);
-
-      // Set the MediaRecorder state
-      setMediaRecorder(recorder);
-      setCalling(true);
-      // Start recording
-      recorder.start();
-    } catch (err) {
-      console.error("Error accessing microphone", err);
-    }
-  }
+  
 
   React.useEffect(() => {
     if (inputRef.current) {
@@ -121,7 +101,7 @@ export function PromptForm({
           <Button
             variant='ghost'
             size='icon'
-            onClick={(e) => handlePhoneClick()}
+            onClick={(e) => startRecording()}
           >
             <Phone
               color='#004033'
