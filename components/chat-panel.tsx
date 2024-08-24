@@ -207,9 +207,16 @@ const monitorAudioLevels = () => {
   };
   */
   // Add this function to start the call
+  React.useEffect(() => {
+    if (isCallActive) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  }, [isCallActive]);
+  
   const startCall = () => {
     setIsCallActive(true);
-    startRecording();
   };
 
   const endCall = () => {
@@ -221,7 +228,7 @@ const monitorAudioLevels = () => {
   const exampleMessages = []
 
   React.useEffect(() => {
-    if (recording) {
+    if (recording && isCallActive) {
       startRecording();
     } else {
       stopRecording();
