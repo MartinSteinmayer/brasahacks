@@ -11,14 +11,6 @@ interface IHeaderMenu {
 
 export const HeaderMenu = ({currentPage, setCurrentPage}: IHeaderMenu) => {
 
-    const handleClick = (e) => {
-        const id = e.currentTarget.id;
-        console.log("Clicked item:", id);
-        setCurrentPage(e.currentTarget.id)
-        console.log(currentPage)
-        // Perform actions based on the ID
-    };
-
     return (
         <NavigationMenu
             orientation='horizontal'
