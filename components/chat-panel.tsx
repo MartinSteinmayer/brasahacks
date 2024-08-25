@@ -149,6 +149,7 @@ const monitorAudioLevels = () => {
         const audioUrl = URL.createObjectURL(audioBlob);
         const audio = new Audio(audioUrl);
         audio.play();
+        console.log('asdf')
   
         // When the audio finishes playing, start recording again
         console.log(isCallActive)
