@@ -282,7 +282,7 @@ const monitorAudioLevels = () => {
                 variant="destructive"
                 size="icon"
                 onClick={e => endCall()}
-                className="my-auto"
+                className="my-auto z-50"
               >
                 <PhoneOff
                   //color="#ffffff"
