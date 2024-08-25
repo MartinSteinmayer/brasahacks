@@ -32,6 +32,14 @@ export const HeaderMenu = ({currentPage, setCurrentPage}: IHeaderMenu) => {
             >
                 Dashboard
             </NavigationMenuLink>
+            <NavigationMenuLink
+                id="education"
+                className={navigationMenuTriggerStyle()}
+                onClick={(e) => setCurrentPage(e.currentTarget.id)}
+                active={currentPage === 'education'}
+            >
+                Educação
+            </NavigationMenuLink>
         </NavigationMenu>
     );
 }

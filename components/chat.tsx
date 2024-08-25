@@ -13,6 +13,7 @@ import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
 import { HeaderMenu } from './header-menu'
 import Dashboard from '@/app/dashboard/page'
+import Education from './education'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -91,8 +92,8 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
             scrollToBottom={scrollToBottom}
           />
         </div> 
-      :
-        <Dashboard />
+        : currentPage === 'dashboard' ?
+        <Dashboard /> : <Education />
       }
 
     </div>
