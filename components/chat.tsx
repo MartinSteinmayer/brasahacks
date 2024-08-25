@@ -12,6 +12,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
 import { HeaderMenu } from './header-menu'
+import Dashboard from '@/app/dashboard/page'
+import Education from './education'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -65,14 +67,14 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       ref={scrollRef}
     >
       <div
-        className='menu'
+        className='menu flex'
       >
         <HeaderMenu currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </div>
-      {
-        currentPage === 'chat' ? <div>
+      {currentPage === 'chat' ? 
+        <div>
           <div
-            className={cn('pb-[200px] pt-4 md:pt-10', className)}
+            className={cn('pb-[200px] pt-10', className)}
             ref={messagesRef}
           >
             {messages.length ? (
@@ -90,8 +92,11 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
             scrollToBottom={scrollToBottom}
           />
         </div> 
-      :
-        <div>test</div> 
+        : currentPage === 'dashboard' ?
+          <div className='dashboard-container'>
+            <iframe id="dash-iframe" title="Stone_dashboard" width="1000" height="800" src="https://app.powerbi.com/view?r=eyJrIjoiOTQzMTk2NjAtMmJlYy00MzNlLWJjMDEtNTc5YzgwZmRhMzUxIiwidCI6ImUzNmVlMzhmLTkxYjgtNGRjYS05YjEzLWNhYTUzNjBjOTcxNCIsImMiOjF9&filterPaneEnabled=false&navContentPaneEnabled=false"></iframe>
+          </div>
+        : <Education />
       }
 
     </div>

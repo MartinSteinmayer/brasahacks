@@ -1,0 +1,140 @@
+/* Education.css */
+
+.education-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    font-family: 'Arial', sans-serif;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* White background to match content area */
+}
+
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #008000; /* Green background */
+    color: #ffffff;
+    border: 1px solid #008000;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #006600; /* Darker green on hover */
+}
+
+.search-results {
+    margin-bottom: 20px;
+}
+
+.search-results > h2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.search-result-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-result-item:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 5px;
+    color: #333;
+}
+
+.result-summary {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.blog-content-container {
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.blog-content {
+    padding: 20px;
+    background-color: #fff;
+}
+
+
+.tituloBlog {
+    font-size: 24px;
+    color: black; /* Dark grey text color */
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.subtituloBlog {
+    font-size: 20px;
+    color: #008a17; /* Medium grey for subtitles */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.textoBlog {
+    font-size: 16px;
+    color: #000000; /* Lighter grey for body text */
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.textoBlog strong {
+    color: #000; /* Black for strong emphasis */
+}
+
+.textoBlog ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.textoBlog li {
+    margin-bottom: 10px;
+}
+
+.blog-image {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.blog-image {
+    display: block;
+    margin: 20px 0;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

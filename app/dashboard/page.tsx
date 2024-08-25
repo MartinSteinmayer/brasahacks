@@ -1,17 +1,11 @@
 'use-client'
 
-import { Header } from "@/components/header";
-import { HeaderMenu } from "@/components/header-menu";
-
-const Test = () => {
+const Dashboard = () => {
     return (
-        <>
-            <div className='menu'>
-                <HeaderMenu dashboard />
-            </div>
-            Test
-        </>
+        <p id="dashboard-container">
+            
+        </p>
     );
 }
 
-export default Test;
+export default Dashboard;

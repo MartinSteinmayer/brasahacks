@@ -21,17 +21,19 @@ import { Phone, SendHorizontal } from 'lucide-react'
 
 export function PromptForm({
   input,
-  setInput
+  setInput,
+  startRecording,
 }: {
   input: string
   setInput: (value: string) => void
+  startRecording: () => void
 }) {
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
-
+  
   React.useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus()
@@ -98,6 +100,7 @@ export function PromptForm({
           <Button
             variant='ghost'
             size='icon'
+            onClick={(e) => startRecording()}
           >
             <Phone
               color='#004033'
