@@ -1,7 +1,11 @@
 // blogPosts.ts
 
+import { title } from "process";
+
 export const blogPosts : any = {
     "Churn": {
+        title: "Como Controlar o Churn e Fidelizar seus Clientes na Cafeteria",
+        summary: "Descubra o que é churn, por que ele é importante para o seu negócio e estratégias eficazes para reduzir a taxa de perda de clientes na sua cafeteria.",
         content: `
             <h1 class="tituloBlog">Como Controlar o Churn e Fidelizar seus Clientes na Cafeteria</h1>
 
@@ -31,6 +35,8 @@ export const blogPosts : any = {
         imageSrc: "/education-images/churn.png"
     },
     "Capital de Giro": {
+        title: "Como Gerenciar o Capital de Giro da sua Cafeteria",
+        summary: "Entenda a importância do capital de giro para manter a operação diária da sua empresa e como gerenciá-lo eficientemente.",
         content: `
         <h1 class="tituloBlog">Como Gerenciar o Capital de Giro da sua Cafeteria</h1>
 
@@ -64,6 +70,8 @@ export const blogPosts : any = {
         imageSrc: "/education-images/working-capital.png"
     },
     "Estratégia de Precificação": {
+        title: "Estratégia de Precificação: O Guia Para Sua Cafeteria em Tiradentes",
+        summary: "Aprenda como definir preços que atraem clientes, aumentam suas vendas e garantem a sustentabilidade financeira do seu negócio.",
         content: `
             <h1 class="tituloBlog">Estratégia de Precificação: O Guia Para Sua Cafeteria em Tiradentes, Francisco</h1>
 
@@ -100,6 +108,8 @@ export const blogPosts : any = {
         imageSrc:  "/education-images/pricing-strategy.png"
     },
     "Fluxo de Caixa": {
+        title: "Entendendo e Otimizando o Fluxo de Caixa da Sua Cafeteria",
+        summary: "Saiba como controlar o fluxo de caixa da sua empresa para evitar problemas financeiros e garantir a saúde financeira do seu negócio.",
         content: `
             <h1 class="tituloBlog">Entendendo e Otimizando o Fluxo de Caixa da Sua Cafeteria</h1>
 

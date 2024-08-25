@@ -18,6 +18,7 @@ const Education: React.FC = () => {
     const [fetchingText, setFetchingText] = useState<boolean>(false);
     const [fetchingImage, setFetchingImage] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [showExampleTopics, setShowExampleTopics] = useState<boolean>(true);
 
     const cleanContent = (content: string) => {
         // Remove ```html or ``` from the start or end
@@ -84,6 +85,7 @@ const Education: React.FC = () => {
     const handleSearch = () => {
         if (searchTerm.trim()) {
             fetchBlogPost(searchTerm);
+            setShowExampleTopics(false);
         }
     };
 
@@ -92,6 +94,7 @@ const Education: React.FC = () => {
         const post = blogPosts[topic];
         setBlogContent(post.content);
         setImageSrc(post.imageSrc);
+        setShowExampleTopics(false);
     };
 
     // Function to insert the image below the <h1> tag
@@ -123,17 +126,20 @@ const Education: React.FC = () => {
                 <button onClick={handleSearch} className="search-button">Buscar</button>
             </div>
 
-            <div className="example-buttons">
+            {showExampleTopics && (
+            <div className="search-results">
                 {exampleTopics.map((topic, index) => (
-                    <button
-                        key={index}
+                    <div 
+                        key={index} 
+                        className="search-result-item"
                         onClick={() => handleExampleClick(topic)}
-                        className="example-button"
                     >
-                        {topic}
-                    </button>
+                        <h3 className="result-title">{blogPosts[topic].title}</h3>
+                        <p className="result-summary">{blogPosts[topic].summary}</p>
+                    </div>
                 ))}
-            </div>
+            </div> 
+        )}
 
             <div className="blog-content-container">
                 {fetchingText ? (

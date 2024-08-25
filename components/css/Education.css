@@ -41,27 +41,37 @@
     background-color: #006600; /* Darker green on hover */
 }
 
-.example-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+.search-results {
     margin-bottom: 20px;
 }
 
-.example-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.search-result-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.example-button:hover {
-    background-color: #e0e0e0;
+.search-result-item:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 5px;
+    color: #333;
+}
+
+.result-summary {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
 }
 
 .blog-content-container {
