@@ -39,7 +39,7 @@
     "html-react-parser": "^5.1.12",
     "lucide-react": "^0.435.0",
     "nanoid": "^5.0.7",
-    "next": "14.2.4",
+    "next": "^14.2.6",
     "next-auth": "5.0.0-beta.4",
     "next-themes": "^0.3.0",
     "openai": "^4.52.2",
