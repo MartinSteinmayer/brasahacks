@@ -1,0 +1,47 @@
+/* Education.css */
+
+.education-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    font-family: 'Arial', sans-serif;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* White background to match content area */
+}
+
+.tituloBlog {
+    font-size: 24px;
+    color: black; /* Dark grey text color */
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.subtituloBlog {
+    font-size: 20px;
+    color: #008a17; /* Medium grey for subtitles */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.textoBlog {
+    font-size: 16px;
+    color: #000000; /* Lighter grey for body text */
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.textoBlog strong {
+    color: #000; /* Black for strong emphasis */
+}
+
+.textoBlog ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.textoBlog li {
+    margin-bottom: 10px;
+}
