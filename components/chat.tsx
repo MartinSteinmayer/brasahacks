@@ -74,7 +74,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       {currentPage === 'chat' ? 
         <div>
           <div
-            className={cn('pb-[200px] pt-4 md:pt-10', className)}
+            className={cn('pb-[200px] pt-10', className)}
             ref={messagesRef}
           >
             {messages.length ? (

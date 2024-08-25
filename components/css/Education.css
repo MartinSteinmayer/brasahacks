@@ -45,6 +45,11 @@
     margin-bottom: 20px;
 }
 
+.search-results > h2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
 .search-result-item {
     padding: 15px;
     border: 1px solid #ddd;

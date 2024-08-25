@@ -128,6 +128,7 @@ const Education: React.FC = () => {
 
             {showExampleTopics && (
             <div className="search-results">
+                <h2>Exemplos de tópicos:</h2>
                 {exampleTopics.map((topic, index) => (
                     <div 
                         key={index} 
