@@ -93,7 +93,10 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
           />
         </div> 
         : currentPage === 'dashboard' ?
-        <Dashboard /> : <Education />
+          <div className='dashboard-container'>
+            <iframe id="dash-iframe" title="Stone_dashboard" width="1000" height="800" src="https://app.powerbi.com/view?r=eyJrIjoiOTQzMTk2NjAtMmJlYy00MzNlLWJjMDEtNTc5YzgwZmRhMzUxIiwidCI6ImUzNmVlMzhmLTkxYjgtNGRjYS05YjEzLWNhYTUzNjBjOTcxNCIsImMiOjF9&filterPaneEnabled=false&navContentPaneEnabled=false"></iframe>
+          </div>
+        : <Education />
       }
 
     </div>
