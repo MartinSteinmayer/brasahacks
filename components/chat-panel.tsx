@@ -256,7 +256,7 @@ const monitorAudioLevels = () => {
         </div>
       )}
 
-      <div className="mx-auto sm:max-w-2xl sm:px-4 mb-8">
+      <div className="mx-auto sm:max-w-2xl sm:px-4 md:mb-8">
         {!isCallActive ? (
           <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-xl sm:border md:py-4">
             <PromptForm
