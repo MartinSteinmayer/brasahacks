@@ -67,7 +67,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       ref={scrollRef}
     >
       <div
-        className='menu'
+        className='menu flex'
       >
         <HeaderMenu currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </div>

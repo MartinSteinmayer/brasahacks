@@ -12,9 +12,10 @@ import type { AI } from '@/lib/chat/actions'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
 import { PhoneOff } from 'lucide-react'
-import { LiveAudioVisualizer } from 'react-audio-visualize';
+import { LiveAudioVisualizer } from 'react-audio-visualize'
 import { start } from 'repl'
-
+import { set } from 'date-fns'
+import style from 'react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark'
 
 export interface ChatPanelProps {
   id?: string
@@ -33,18 +34,17 @@ export function ChatPanel({
   isAtBottom,
   scrollToBottom
 }: ChatPanelProps) {
-  const [aiState] = useAIState()
-  const [messages, setMessages] = useUIState<typeof AI>()
-  const { submitUserMessage } = useActions()
-  const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
+
   const [recording, setRecording] = React.useState(false)
-  const [mediaRecorder, setMediaRecorder] = React.useState<MediaRecorder|null>(null);
+  const [mediaRecorder, setMediaRecorder] =
+    React.useState<MediaRecorder | null>(null)
   const audioContextRef = React.useRef<AudioContext | null>(null)
   const analyserRef = React.useRef<AnalyserNode | null>(null)
-  const silenceTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
   const [isCallActive, setIsCallActive] = React.useState(false)
+  const [waitingForResponse, setWaitingForResponse] = React.useState(false)
+  const silenceTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
-const stopRecording = () => {
+  const stopRecording = () => {
   if (mediaRecorder) {
     mediaRecorder.stop();
     mediaRecorder.stream.getTracks().forEach(track => track.stop());
@@ -63,6 +63,7 @@ const stopRecording = () => {
       silenceTimeoutRef.current = null;
     }
 
+    setWaitingForResponse(true);
     setRecording(false);
   }
 };
@@ -150,6 +151,7 @@ const monitorAudioLevels = () => {
         const audio = new Audio(audioUrl);
         audio.play();
         console.log('asdf')
+        setWaitingForResponse(false);
   
         // When the audio finishes playing, start recording again
         console.log(isCallActive)
@@ -221,8 +223,9 @@ const monitorAudioLevels = () => {
   };
 
   const endCall = () => {
-    stopRecording();
-    setIsCallActive(false);
+    stopRecording();   
+    setIsCallActive(false); 
+    setWaitingForResponse(false);
   };
   
 
@@ -235,7 +238,7 @@ const monitorAudioLevels = () => {
       stopRecording();
     }
   }, [recording]);
-
+  
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
@@ -244,15 +247,28 @@ const monitorAudioLevels = () => {
         scrollToBottom={scrollToBottom}
       />
 
-      <div className="mx-auto sm:max-w-2xl sm:px-4">
-        {!isCallActive ? 
-          <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-            <PromptForm input={input} setInput={setInput} startRecording={startCall} />
+      {waitingForResponse && isCallActive && (
+        <div className="absolute inset-0 flex items-center justify-center bg-background/90 z-50">
+          <div className="flex items-center space-x-2">
+            <div className="spinner"></div>
+            <p className="text-accent">Processing...</p>
           </div>
-        : 
-          <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-            <div className='flex justify-end'>
-              <div className='px-6 py-3'>
+        </div>
+      )}
+
+      <div className="mx-auto sm:max-w-2xl sm:px-4 mb-8">
+        {!isCallActive ? (
+          <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-xl sm:border md:py-4">
+            <PromptForm
+              input={input}
+              setInput={setInput}
+              startRecording={startCall}
+            />
+          </div>
+        ) : (
+          <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-xl sm:border md:py-4">
+            <div className="flex justify-end">
+              <div className="px-6 py-3">
                 {mediaRecorder && (
                   <LiveAudioVisualizer
                     mediaRecorder={mediaRecorder}
@@ -263,20 +279,35 @@ const monitorAudioLevels = () => {
                 )}
               </div>
               <Button
-                variant='destructive'
-                size='icon'
-                onClick={(e) => endCall()}
-                className='my-auto'
+                variant="destructive"
+                size="icon"
+                onClick={e => endCall()}
+                className="my-auto"
               >
-                <PhoneOff 
+                <PhoneOff
                   //color="#ffffff"
                   strokeWidth={1.75}
                 />
               </Button>
             </div>
           </div>
-        }
+        )}
       </div>
+      <style jsx>{`
+        .spinner {
+          border: 4px solid rgba(0, 0, 0, 0.1);
+          border-left-color: #00a868;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   )
 }

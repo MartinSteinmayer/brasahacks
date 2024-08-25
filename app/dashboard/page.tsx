@@ -6,7 +6,7 @@ import { HeaderMenu } from "@/components/header-menu";
 const Dashboard = () => {
     return (
         <>
-            <div className='menu'>
+            <div className='menu flex'>
             </div>
             Test
         </>
