@@ -28,6 +28,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
+  const [showPopup, setShowPopup] = useState(true);
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
@@ -60,6 +61,17 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
     useScrollAnchor()
 
   const [currentPage, setCurrentPage] = useState('chat');
+
+  // Function to toggle the popup visibility
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
+
+  // Optionally, you can use a useEffect to control showing the popup only on the first render
+  useEffect(() => {
+    // This effect runs once on component mount, ensuring the popup shows initially
+    setShowPopup(true);
+  }, []);
 
   return (
     <div
@@ -98,6 +110,22 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
           </div>
         : <Education />
       }
+
+      {showPopup && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 className="text-2xl font-bold mb-4">Francisco, você pode perder 500 clientes!</h2>
+            <p className="mb-4">41% dos clientes estão na categoria "Clientes em Risco".</p>
+            <button
+              onClick={togglePopup}
+              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              style={{ backgroundColor: '#004033', color: '#fff' }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   )
