@@ -1,6 +1,6 @@
-# Nome do Projeto
+# Stênio  App
 
-Este projeto é uma plataforma integrada que utiliza tecnologias modernas como Vercel, React, Flask, e a API da OpenAI para fornecer uma experiência interativa para os clientes da Stone. A plataforma inclui um chatbot, um dashboard dinâmico desenvolvido com PowerBI, e uma seção educacional que gera automaticamente blogs com textos e imagens utilizando o GPT-4.
+Stênio App é uma plataforma integrada que utiliza tecnologias modernas como Vercel, React, Flask, e a API da OpenAI para fornecer uma experiência interativa para os clientes da Stone. A plataforma inclui um chatbot por  voz e texto, um dashboard dinâmico desenvolvido com PowerBI, e uma seção educacional que gera automaticamente blogs com textos e imagens utilizando o GPT-4.
 
 ## Índice
 
@@ -12,7 +12,7 @@ Este projeto é uma plataforma integrada que utiliza tecnologias modernas como V
 
 ## Funcionalidades
 
-- **Chatbot Interativo**: Converse em tempo real com um assistente virtual inteligente, capaz de entender e responder a uma ampla gama de perguntas e ajudar no dia a dia do cliente, seja com texto ou com voz.
+- **Chatbot Interativo**: Converse em tempo real com o Stênio, o seu assistente virtual, capaz de entender e responder a uma ampla gama de perguntas e ajudar no dia a dia do cliente, seja com texto ou com voz.
 - **Dashboard Personalizável**: Visualize dados importantes de maneira intuitiva e interativa, com gráficos e relatórios dinâmicos.
 - **Gerador Automático de Conteúdo**: Crie blogs automaticamente, com textos e imagens gerados pelo GPT-4, ideal para educação e marketing de conteúdo.
 
