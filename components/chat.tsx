@@ -112,8 +112,8 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
             <p className="mb-4">41% dos clientes estão na categoria &quot;Clientes em Risco&quot;.</p>
             <button
               onClick={togglePopup}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              
+              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-full"
+              style={{ backgroundColor: '#004033', color: '#FFFFFF' }}
             >
               Close
             </button>
